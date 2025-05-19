@@ -1,5 +1,6 @@
 package com.example.weatherfetcher.controller;
 
+import com.example.weatherfetcher.model.WeatherFetcherModel;
 import com.example.weatherfetcher.service.WeatherFetcherService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,7 +16,7 @@ public class WeatherFetcherController {
     }
 
     @GetMapping("/weather")
-    public String getWeather(@RequestParam String city){
+    public WeatherFetcherModel getWeather(@RequestParam String city){
         return weatherFetcherService.getWeather(city);
     }
 }
