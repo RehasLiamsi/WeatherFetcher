@@ -3,13 +3,15 @@ package com.example.weatherfetcher.service;
 import com.example.weatherfetcher.model.WeatherFetcherModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
 public class WeatherFetcherService {
 
-    private final String apiKey = "b6f6e0fa610ec485b7288a98a003e0a6";
+    @Value("${openweather.api.key}")
+    private String apiKey;
 
     public WeatherFetcherModel getWeather(String city){
         String url = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=metric&appid=" + apiKey;
