@@ -10,32 +10,36 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class WeatherFetcherService {
 
-    @Value("${openweather.api.key}")
+    @Value("${openweathermap.api.key}")
     private String apiKey;
 
     public WeatherFetcherModel getWeather(String city){
-        String url = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=metric&appid=" + apiKey;
+        try {
+            String url = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=metric&appid=" + apiKey;
 
-        RestTemplate restTemplate = new RestTemplate();
-        String json = restTemplate.getForObject(url, String.class);
+            RestTemplate restTemplate = new RestTemplate();
+            String json = restTemplate.getForObject(url, String.class);
 
-        JSONObject obj = new JSONObject(json);
+            JSONObject obj = new JSONObject(json);
 
-        String cityName = obj.getString("name");
-        double temp = obj.getJSONObject("main").getDouble("temp");
-        int humidity = obj.getJSONObject("main").getInt("humidity");
-        double feelsLike = obj.getJSONObject("main").getDouble("feels_like");
+            String cityName = obj.getString("name");
+            double temp = obj.getJSONObject("main").getDouble("temp");
+            int humidity = obj.getJSONObject("main").getInt("humidity");
+            double feelsLike = obj.getJSONObject("main").getDouble("feels_like");
 
-        JSONArray weatherArray = obj.getJSONArray("weather");
-        String description = weatherArray.getJSONObject(0).getString("description");
+            JSONArray weatherArray = obj.getJSONArray("weather");
+            String description = weatherArray.getJSONObject(0).getString("description");
 
-        return new WeatherFetcherModel(
-                cityName,
-                temp + "°C",
-                feelsLike + "°C",
-                description,
-                humidity + "%"
-        );
+            return new WeatherFetcherModel(
+                    cityName,
+                    temp + "°C",
+                    feelsLike + "°C",
+                    description,
+                    humidity + "%"
+            );
+        } catch (Exception e){
+            throw new RuntimeException("City not found. Please check the name and try again.");
+        }
     }
 
 }
