@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+﻿import React, { useState } from 'react';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [city, setCity] = useState('');
+
+    const handleInputChange = (e) => {
+        setCity(e.target.value);
+    };
+
+    const handleSearch = () => {
+        console.log('City:', city);
+        // We'll connect to backend later
+    };
+
+    return (
+        <div style={{ padding: '2rem', fontFamily: 'Arial' }}>
+            <h1>🌦️ Weather Fetcher</h1>
+            <input
+                type="text"
+                placeholder="Enter city"
+                value={city}
+                onChange={handleInputChange}
+                style={{ padding: '0.5rem', fontSize: '1rem' }}
+            />
+            <button
+                onClick={handleSearch}
+                style={{ marginLeft: '1rem', padding: '0.5rem 1rem', fontSize: '1rem' }}
+            >
+                Get Weather
+            </button>
+        </div>
+    );
 }
 
 export default App;
