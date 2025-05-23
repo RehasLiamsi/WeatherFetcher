@@ -44,7 +44,7 @@ function App() {
                 fontSize: '4rem',
                 animation: 'spin 8s linear infinite'
             }}>
-                🌤️
+                ☀️
             </div>
 
             <h1 style={{ fontSize: '2rem', margin: '1rem 0' }}>Weather Fetcher</h1>
