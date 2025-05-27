@@ -1,4 +1,7 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
+import './index.css';
+import SearchBar from './components/SearchBar';
+import WeatherCard from './components/WeatherCard';
 
 function App() {
     const [city, setCity] = useState('');
@@ -6,13 +9,10 @@ function App() {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
-    const handleInputChange = (e) => {
-        setCity(e.target.value);
-    };
+    const handleInputChange = (e) => setCity(e.target.value);
 
     const handleSearch = async () => {
         if (!city) return;
-
         setLoading(true);
         setError('');
         try {
@@ -29,88 +29,22 @@ function App() {
     };
 
     return (
-        <div style={{
-            minHeight: '100vh',
-            backgroundColor: '#fef9f8',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            padding: '2rem',
-            fontFamily: '"Segoe UI", sans-serif',
-            color: '#333'
-        }}>
-            {/* Animated Weather Emoji */}
-            <div style={{
-                fontSize: '4rem',
-                animation: 'spin 8s linear infinite'
-            }}>
-                ☀️
-            </div>
+        <div className="min-h-screen bg-pink-50 flex items-center justify-center p-4">
+            <div className="bg-white shadow-lg rounded-2xl p-6 w-full max-w-md text-center">
+                <div className="text-5xl mb-4 animate-spin-slow">☀️</div>
+                <h1 className="text-2xl font-semibold mb-2 text-gray-800">Weather Fetcher</h1>
+                <p className="text-sm text-gray-500 mb-4">Enter a city name to fetch the weather</p>
 
-            <h1 style={{ fontSize: '2rem', margin: '1rem 0' }}>Weather Fetcher</h1>
-            <p style={{ marginBottom: '2rem', color: '#666' }}>Enter a city to get the weather forecast.</p>
-
-            <div>
-                <input
-                    type="text"
-                    value={city}
-                    onChange={handleInputChange}
-                    placeholder="e.g., London"
-                    style={{
-                        padding: '0.5rem 1rem',
-                        fontSize: '1rem',
-                        border: '1px solid #ddd',
-                        borderRadius: '6px',
-                        outline: 'none',
-                        width: '200px'
-                    }}
+                <SearchBar
+                    city={city}
+                    onCityChange={handleInputChange}
+                    onSearch={handleSearch}
                 />
-                <button
-                    onClick={handleSearch}
-                    style={{
-                        marginLeft: '1rem',
-                        padding: '0.5rem 1.2rem',
-                        fontSize: '1rem',
-                        backgroundColor: '#ffd6d6',
-                        color: '#333',
-                        border: 'none',
-                        borderRadius: '6px',
-                        cursor: 'pointer'
-                    }}
-                >
-                    Get Weather
-                </button>
+
+                {loading && <p className="text-gray-500">Loading...</p>}
+                {error && <p className="text-red-500">{error}</p>}
+                {weather && <WeatherCard weather={weather} />}
             </div>
-
-            {loading && <p style={{ marginTop: '2rem' }}>Loading...</p>}
-            {error && <p style={{ color: 'red', marginTop: '2rem' }}>{error}</p>}
-
-            {weather && (
-                <div style={{
-                    marginTop: '2rem',
-                    padding: '1.5rem',
-                    backgroundColor: '#fff6f0',
-                    borderRadius: '12px',
-                    boxShadow: '0 2px 12px rgba(0,0,0,0.05)',
-                    textAlign: 'left',
-                    width: '280px'
-                }}>
-                    <h2 style={{ marginBottom: '0.5rem' }}>{weather.city}</h2>
-                    <p><strong>🌡️ Temperature:</strong> {weather.temperature}</p>
-                    <p><strong>🥶 Feels Like:</strong> {weather.feelsLike}</p>
-                    <p><strong>💧 Humidity:</strong> {weather.humidity}</p>
-                    <p><strong>🌥️ Description:</strong> {weather.description}</p>
-                </div>
-            )}
-
-            <style>
-                {`
-          @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-          }
-        `}
-            </style>
         </div>
     );
 }
