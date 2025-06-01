@@ -1,11 +1,22 @@
-# Step 1: Build the React app
-FROM node:20-alpine as build
+FROM node:18 as builder
+
 WORKDIR /app
-COPY . .
+
+COPY package.json .
+COPY package-lock.json .
 RUN npm install
+
+COPY public ./public
+COPY src ./src
+COPY .env.production .      
+
 RUN npm run build
 
-# Step 2: Serve with Nginx
-FROM nginx:stable-alpine
-COPY --from=build /app/build /usr/share/nginx/html
+
+FROM nginx:alpine
+
+COPY --from=builder /app/build /usr/share/nginx/html
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
 EXPOSE 80
