@@ -2,7 +2,8 @@ node_modules
 build
 .git
 *.log
-.env*
+.env
+!.env.production
 *.md
 Dockerfile
 .dockerignore
