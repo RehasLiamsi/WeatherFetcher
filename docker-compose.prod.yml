@@ -2,8 +2,7 @@ version: '3.8'
 
 services:
   backend:
-    build:
-      context: ./weather-backend
+    image: rehasliamsi/weatherfetcher-backend:latest
     ports:
       - "8080:8080"
     networks:
@@ -11,10 +10,8 @@ services:
     environment:
       - openweathermap.api.key=${OPENWEATHERMAP_API_KEY}
 
-
   frontend:
-    build:
-      context: ./weather-frontend
+    image: rehasliamsi/weatherfetcher-frontend:latest
     ports:
       - "3000:80"
     networks:
